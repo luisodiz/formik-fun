@@ -1,13 +1,5 @@
 import {Field, Form, Formik} from 'formik'
 import {Button, TextField} from '@mui/material'
-import * as Yup from 'yup'
-
-const SignUpSchema = Yup.object().shape({
-  fullName: Yup.string(),
-  email: Yup.string()
-    .email('Неверный формат email адреса')
-    .required('Поле обязательное'),
-})
 
 const SignUpForm = () => {
   return (
@@ -18,7 +10,6 @@ const SignUpForm = () => {
         password: '',
         confirmPassword: '',
       }}
-      validationSchema={SignUpSchema}
       onSubmit={() => console.log('submitted')}
     >
       {({values, handleChange}) => (
