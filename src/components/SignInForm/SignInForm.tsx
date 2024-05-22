@@ -1,4 +1,4 @@
-import {TextField, Button, Grid} from '@mui/material'
+import {TextField, Button} from '@mui/material'
 import {Formik, Form, Field} from 'formik'
 
 const SignInForm = () => {
@@ -11,27 +11,25 @@ const SignInForm = () => {
     >
       {({handleChange}) => (
         <Form>
-          <Grid container direction="column">
-            <Field
-              component={TextField}
-              label="Ваш Email"
-              fullWidth
-              size="small"
-              sx={{mb: 2}}
-              onChange={handleChange('email')}
-            />
-            <Field
-              component={TextField}
-              label="Ваш пароль"
-              fullWidth
-              size="small"
-              sx={{mb: 2}}
-              onChange={handleChange('password')}
-            />
-            <Button variant="contained" size="large" type="submit">
-              Отправить
-            </Button>
-          </Grid>
+          <Field
+            component={TextField}
+            label="Email"
+            fullWidth
+            size="small"
+            sx={{mb: 2}}
+            onChange={handleChange('email')}
+          />
+          <Field
+            component={TextField}
+            label="Пароль"
+            fullWidth
+            size="small"
+            sx={{mb: 2}}
+            onChange={handleChange('password')}
+          />
+          <Button fullWidth variant="contained" size="large" type="submit">
+            Отправить
+          </Button>
         </Form>
       )}
     </Formik>
