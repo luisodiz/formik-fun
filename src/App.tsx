@@ -1,12 +1,12 @@
-import Icon from '@mui/material/Icon'
-import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import SignIn from './pages/SignIn/SignIn.tsx'
+import './index.scss'
 
 const App = () => {
   return (
-    <div>
-      React Formik Fun<Icon>star</Icon>
-      <Button variant="contained">Contained</Button>
-    </div>
+    <Grid p="20px">
+      <SignIn />
+    </Grid>
   )
 }
 
