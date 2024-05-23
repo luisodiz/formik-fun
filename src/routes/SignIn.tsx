@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 const SignIn = () => {
   return (
     <Grid container justifyContent="center">
-      <Grid sm={7} md={5}>
+      <Grid item sm={7} md={5}>
         <Typography
           variant="h2"
           component="h2"
