@@ -1,6 +1,14 @@
 import {Field, Form, Formik} from 'formik'
 import {Button, TextField} from '@mui/material'
 import * as yup from 'yup'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  AuthErrorCodes,
+  type AuthError,
+} from 'firebase/auth'
+
+import {app} from '../../firebase/config.ts'
 
 const nameRegex = new RegExp(/^[А-ЯЁ][а-яё]*$/)
 
@@ -31,11 +39,11 @@ const SignUpSchema = yup.object().shape({
     .required('Поле обязательное'),
   password: yup
     .string()
-    .min(6, 'Пароль должен быть не менее 6-ти символов')
+    .min(2, 'Пароль должен быть не менее 6-ти символов')
     .required('Поле обязательное'),
   confirmPassword: yup
     .string()
-    .min(6, 'Пароль должен быть не менее 6-ти символов')
+    .min(2, 'Пароль должен быть не менее 6-ти символов')
     .test('password-match', 'Пароли не совпадают', function (value) {
       return this.parent.password === value
     })
@@ -51,8 +59,35 @@ const SignUpForm = () => {
         password: '',
         confirmPassword: '',
       }}
-      onSubmit={(values) => {
-        console.log(values)
+      onSubmit={async (values, helpers) => {
+        try {
+          const auth = getAuth(app)
+          const {email, password} = values
+          await createUserWithEmailAndPassword(auth, email, password)
+          console.log('success')
+          helpers.resetForm()
+        } catch (err) {
+          if ((err as AuthError)?.code === AuthErrorCodes.EMAIL_EXISTS) {
+            helpers.setFieldError(
+              'email',
+              'Email адресс уже используется другим аккаунтом'
+            )
+          }
+          if ((err as AuthError)?.code === AuthErrorCodes.INVALID_EMAIL) {
+            helpers.setFieldError('email', 'Email указан неверно')
+          }
+          if ((err as AuthError)?.code === AuthErrorCodes.WEAK_PASSWORD) {
+            helpers.setFieldError(
+              'password',
+              'Пароль должен быть не менее 6-ти символов'
+            )
+            helpers.setFieldError(
+              'confirmPassword',
+              'Пароль должен быть не менее 6-ти символов'
+            )
+          }
+          console.log(err)
+        }
       }}
       validationSchema={SignUpSchema}
     >
