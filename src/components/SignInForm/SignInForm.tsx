@@ -1,6 +1,14 @@
 import {TextField, Button} from '@mui/material'
 import {Formik, Form, Field} from 'formik'
 import * as yup from 'yup'
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  type AuthError,
+  AuthErrorCodes,
+} from 'firebase/auth'
+
+import {app} from '../../firebase/config.ts'
 
 const SignInFormSchema = yup.object().shape({
   email: yup
@@ -17,8 +25,21 @@ const SignInForm = () => {
   return (
     <Formik
       initialValues={{email: '', password: ''}}
-      onSubmit={(values) => {
-        console.log(values)
+      onSubmit={async ({email, password}, actions) => {
+        const auth = getAuth(app)
+        try {
+          await signInWithEmailAndPassword(auth, email, password)
+          console.log('success')
+        } catch (err) {
+          if (
+            (err as AuthError)?.code ===
+            AuthErrorCodes.INVALID_LOGIN_CREDENTIALS
+          ) {
+            actions.setFieldError('email', 'Неправильные Email или Пароль')
+            actions.setFieldError('password', 'Неправильные Email или Пароль')
+          }
+          console.log(err)
+        }
       }}
       validationSchema={SignInFormSchema}
     >
