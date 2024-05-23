@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly STORAGE_BUCKET: string
   readonly MESSAGING_SENDER_ID: string
   readonly APP_ID: string
+  readonly VITE_DB_LINK: string
 }
 
 interface ImportMeta {
