@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth'
 
 import {auth} from '../../firebase/auth.ts'
+import PasswordField from '../PasswordField/PasswordField.tsx'
 
 const SignInFormSchema = yup.object().shape({
   email: yup
@@ -56,7 +57,7 @@ const SignInForm = () => {
             helperText={touched.email && errors.email}
           />
           <Field
-            component={TextField}
+            component={PasswordField}
             label="Пароль"
             fullWidth
             size="small"
@@ -65,7 +66,7 @@ const SignInForm = () => {
             onBlur={handleBlur('password')}
             name="password"
             error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
+            helpertext={touched.password && errors.password}
           />
           <Button fullWidth variant="contained" size="large" type="submit">
             Отправить

@@ -7,6 +7,7 @@ import {
   type AuthError,
 } from 'firebase/auth'
 
+import PasswordField from '../PasswordField/PasswordField.tsx'
 import {auth} from '../../firebase/auth.ts'
 import {writeUserData} from '../../firebase/db.ts'
 
@@ -126,12 +127,12 @@ const SignUpForm = () => {
             size="small"
           />
           <Field
-            as={TextField}
+            as={PasswordField}
             fullWidth
             label="Пароль"
             value={values.password}
             error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
+            helpertext={touched.password && errors.password}
             onChange={handleChange('password')}
             onBlur={handleBlur('password')}
             name="password"
@@ -139,12 +140,12 @@ const SignUpForm = () => {
             size="small"
           />
           <Field
-            as={TextField}
+            as={PasswordField}
             fullWidth
             label="Пароль еще раз"
             value={values.confirmPassword}
             error={Boolean(touched.confirmPassword && errors.confirmPassword)}
-            helperText={touched.confirmPassword && errors.confirmPassword}
+            helpertext={touched.confirmPassword && errors.confirmPassword}
             onChange={handleChange('confirmPassword')}
             onBlur={handleBlur('confirmPassword')}
             name="confirmPassword"
