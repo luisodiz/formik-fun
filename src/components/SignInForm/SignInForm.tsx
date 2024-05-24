@@ -2,13 +2,12 @@ import {TextField, Button} from '@mui/material'
 import {Formik, Form, Field} from 'formik'
 import * as yup from 'yup'
 import {
-  getAuth,
   signInWithEmailAndPassword,
   type AuthError,
   AuthErrorCodes,
 } from 'firebase/auth'
 
-import {app} from '../../firebase/config.ts'
+import {auth} from '../../firebase/auth.ts'
 
 const SignInFormSchema = yup.object().shape({
   email: yup
@@ -26,7 +25,6 @@ const SignInForm = () => {
     <Formik
       initialValues={{email: '', password: ''}}
       onSubmit={async ({email, password}, actions) => {
-        const auth = getAuth(app)
         try {
           await signInWithEmailAndPassword(auth, email, password)
           console.log('success')

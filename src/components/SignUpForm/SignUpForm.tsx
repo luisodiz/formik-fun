@@ -2,13 +2,12 @@ import {Field, Form, Formik} from 'formik'
 import {Button, TextField} from '@mui/material'
 import * as yup from 'yup'
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   AuthErrorCodes,
   type AuthError,
 } from 'firebase/auth'
 
-import {app} from '../../firebase/config.ts'
+import {auth} from '../../firebase/auth.ts'
 
 const nameRegex = new RegExp(/^[А-ЯЁ][а-яё]*$/)
 
@@ -61,7 +60,6 @@ const SignUpForm = () => {
       }}
       onSubmit={async (values, helpers) => {
         try {
-          const auth = getAuth(app)
           const {email, password} = values
           await createUserWithEmailAndPassword(auth, email, password)
           console.log('success')
