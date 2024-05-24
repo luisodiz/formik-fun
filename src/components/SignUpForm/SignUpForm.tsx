@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth'
 
 import {auth} from '../../firebase/auth.ts'
+import {writeUserData} from '../../firebase/db.ts'
 
 const nameRegex = new RegExp(/^[А-ЯЁ][а-яё]*$/)
 
@@ -58,28 +59,35 @@ const SignUpForm = () => {
         password: '',
         confirmPassword: '',
       }}
-      onSubmit={async (values, helpers) => {
+      onSubmit={async ({fullName, email, password}, actions) => {
         try {
-          const {email, password} = values
-          await createUserWithEmailAndPassword(auth, email, password)
-          console.log('success')
-          helpers.resetForm()
+          const userCredentials = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          )
+          await writeUserData(userCredentials.user.uid, {
+            fullName,
+            email,
+          })
+          console.log('success', userCredentials)
+          actions.resetForm()
         } catch (err) {
           if ((err as AuthError)?.code === AuthErrorCodes.EMAIL_EXISTS) {
-            helpers.setFieldError(
+            actions.setFieldError(
               'email',
               'Email адресс уже используется другим аккаунтом'
             )
           }
           if ((err as AuthError)?.code === AuthErrorCodes.INVALID_EMAIL) {
-            helpers.setFieldError('email', 'Email указан неверно')
+            actions.setFieldError('email', 'Email указан неверно')
           }
           if ((err as AuthError)?.code === AuthErrorCodes.WEAK_PASSWORD) {
-            helpers.setFieldError(
+            actions.setFieldError(
               'password',
               'Пароль должен быть не менее 6-ти символов'
             )
-            helpers.setFieldError(
+            actions.setFieldError(
               'confirmPassword',
               'Пароль должен быть не менее 6-ти символов'
             )
