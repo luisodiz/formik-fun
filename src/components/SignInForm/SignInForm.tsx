@@ -29,6 +29,7 @@ const SignInForm = () => {
         try {
           await signInWithEmailAndPassword(auth, email, password)
           console.log('success')
+          actions.resetForm()
         } catch (err) {
           if (
             (err as AuthError)?.code ===
@@ -42,7 +43,7 @@ const SignInForm = () => {
       }}
       validationSchema={SignInFormSchema}
     >
-      {({handleChange, handleBlur, errors, touched}) => (
+      {({values, errors, handleChange, handleBlur, touched}) => (
         <Form>
           <Field
             component={TextField}
@@ -52,6 +53,7 @@ const SignInForm = () => {
             sx={{mb: 2}}
             onChange={handleChange('email')}
             onBlur={handleBlur('email')}
+            value={values.email}
             name="email"
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
@@ -64,6 +66,7 @@ const SignInForm = () => {
             sx={{mb: 2}}
             onChange={handleChange('password')}
             onBlur={handleBlur('password')}
+            value={values.password}
             name="password"
             error={Boolean(touched.password && errors.password)}
             helpertext={touched.password && errors.password}

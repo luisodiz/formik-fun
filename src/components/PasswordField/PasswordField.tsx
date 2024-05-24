@@ -10,7 +10,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
-const PasswordField = (props: {helpertext?: ReactNode}) => {
+const PasswordField = (props: {value: string; helpertext?: ReactNode}) => {
   const [shownPass, setShownPass] = useState(false)
 
   const handleClickShowPassword = () => setShownPass(!shownPass)
@@ -20,6 +20,7 @@ const PasswordField = (props: {helpertext?: ReactNode}) => {
       <InputLabel>Пароль</InputLabel>
       <OutlinedInput
         type={shownPass ? 'text' : 'password'}
+        value={props.value}
         endAdornment={
           <InputAdornment position="end">
             <IconButton onClick={handleClickShowPassword} edge="end">
